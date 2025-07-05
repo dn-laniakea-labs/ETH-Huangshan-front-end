@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "ethereum-blockies-base64": "^1.0.2",
     "next": "15.3.5",
     "preline": "^3.1.0",
     "react": "^19.0.0",
