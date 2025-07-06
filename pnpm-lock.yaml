@@ -8,9 +8,21 @@ importers:
 
   .:
     dependencies:
+      datatables.net:
+        specifier: ^2.3.2
+        version: 2.3.2
+      dropzone:
+        specifier: 6.0.0-beta.2
+        version: 6.0.0-beta.2
       ethereum-blockies-base64:
         specifier: ^1.0.2
         version: 1.0.2
+      jquery:
+        specifier: ^3.7.1
+        version: 3.7.1
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
       markdown-it:
         specifier: ^14.1.0
         version: 14.1.0
@@ -20,6 +32,9 @@ importers:
       next-auth:
         specifier: ^4.24.11
         version: 4.24.11(next@15.3.5(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      nouislider:
+        specifier: ^15.8.1
+        version: 15.8.1
       preline:
         specifier: ^3.1.0
         version: 3.1.0
@@ -38,6 +53,9 @@ importers:
       react-markdown-editor-lite:
         specifier: ^1.3.4
         version: 1.3.4(react@19.1.0)
+      vanilla-calendar-pro:
+        specifier: ^3.0.4
+        version: 3.0.4
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3
@@ -45,6 +63,12 @@ importers:
       '@tailwindcss/postcss':
         specifier: ^4
         version: 4.1.11
+      '@types/jquery':
+        specifier: ^3.5.32
+        version: 3.5.32
+      '@types/lodash':
+        specifier: ^4.17.20
+        version: 4.17.20
       '@types/markdown-it':
         specifier: ^14.1.2
         version: 14.1.2
@@ -537,6 +561,9 @@ packages:
   '@types/hast@3.0.4':
     resolution: {integrity: sha512-WPs+bbQw5aCj+x6laNGWLH3wviHtoCv/P3+otBhbOhJgG8qtpdAMlTCxLtsTWA7LH1Oh/bFCHsBn0TPS5m30EQ==}
 
+  '@types/jquery@3.5.32':
+    resolution: {integrity: sha512-b9Xbf4CkMqS02YH8zACqN1xzdxc3cO735Qe5AbSUFmyOiaWAbcpqh9Wna+Uk0vgACvoQHpWDg2rGdHkYPLmCiQ==}
+
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
 
@@ -545,6 +572,9 @@ packages:
 
   '@types/linkify-it@5.0.0':
     resolution: {integrity: sha512-sVDA58zAw4eWAffKOaQH5/5j3XeayukzDk+ewSsnv3p4yJEZHCCzMDiZM8e0OUrRvmpGZ85jf4yDHkHsgBNr9Q==}
+
+  '@types/lodash@4.17.20':
+    resolution: {integrity: sha512-H3MHACvFUEiujabxhaI/ImO6gUrd8oOurg7LQtS7mbwIXA/cUqWrvBsaeJ23aZEPk1TAYkurjfMbSELfoCXlGA==}
 
   '@types/markdown-it@14.1.2':
     resolution: {integrity: sha512-promo4eFwuiW+TfGxhi+0x3czqTYJkG8qB17ZUJiVF10Xm7NLVRSLUsfRTU/6h1e24VvRnXCx+hG7li58lkzog==}
@@ -568,6 +598,9 @@ packages:
 
   '@types/react@19.1.8':
     resolution: {integrity: sha512-AwAfQ2Wa5bCx9WP8nZL2uMZWod7J7/JSplxbTmBQ5ms6QpqNYm672H0Vu9ZVKVngQ+ii4R/byguVEUZQyeg44g==}
+
+  '@types/sizzle@2.3.9':
+    resolution: {integrity: sha512-xzLEyKB50yqCUPUJkIsrVvoWNfFUbIZI+RspLWt8u+tIW/BetMBZtgV2LY/2o+tYH8dRvQ+eoPf3NdhQCcLE2w==}
 
   '@types/unist@2.0.11':
     resolution: {integrity: sha512-CmBKiL6NNo/OqgmMn95Fk9Whlp2mtvIv+KNpQKN2F4SjvrEesubTRWGYSg+BnWZOnlCaSTU1sMpsBOzgbYhnsA==}
@@ -1590,6 +1623,9 @@ packages:
 
   lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
+
+  lodash@4.17.21:
+    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
 
   longest-streak@3.1.0:
     resolution: {integrity: sha512-9Ri+o0JYgehTaVBBDoMqIl8GXtbWg711O3srftcHhZ0dqnETqLaoIK0x17fUw9rFSlK/0NlsKe0Ahhyl5pXE2g==}
@@ -2662,11 +2698,17 @@ snapshots:
     dependencies:
       '@types/unist': 3.0.3
 
+  '@types/jquery@3.5.32':
+    dependencies:
+      '@types/sizzle': 2.3.9
+
   '@types/json-schema@7.0.15': {}
 
   '@types/json5@0.0.29': {}
 
   '@types/linkify-it@5.0.0': {}
+
+  '@types/lodash@4.17.20': {}
 
   '@types/markdown-it@14.1.2':
     dependencies:
@@ -2692,6 +2734,8 @@ snapshots:
   '@types/react@19.1.8':
     dependencies:
       csstype: 3.1.3
+
+  '@types/sizzle@2.3.9': {}
 
   '@types/unist@2.0.11': {}
 
@@ -3876,6 +3920,8 @@ snapshots:
       p-locate: 5.0.0
 
   lodash.merge@4.6.2: {}
+
+  lodash@4.17.21: {}
 
   longest-streak@3.1.0: {}
 

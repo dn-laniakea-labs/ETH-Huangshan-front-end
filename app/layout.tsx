@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import ClientSessionProvider from "@/components/ClientProvider";
+import PrelineScriptWrapper from "@/components/PrelineScriptWrapper";
 
 import "./globals.css";
 
@@ -41,6 +42,7 @@ export default function RootLayout({
           <Footer />
         </ClientSessionProvider>
       </body>
+       <PrelineScriptWrapper />
     </html>
   );
 }
