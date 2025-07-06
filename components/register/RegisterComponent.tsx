@@ -24,7 +24,7 @@ export const RegisterComponent = () => {
       <div className="mx-auto max-w-2xl">
         <div className="text-center">
           <h2 className="text-xl text-white font-bold sm:text-3xl">
-            Register
+            Sign Up
           </h2>
         </div>
         <div className="mt-5 p-4 relative z-10 bg-neutral-900 border border-neutral-700 rounded-xl sm:mt-10 md:p-10 dark:bg-neutral-900 dark:border-neutral-700">
