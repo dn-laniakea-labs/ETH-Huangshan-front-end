@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 type Inputs = {
@@ -12,12 +13,36 @@ type Inputs = {
 }
 
 export const RegisterComponent = () => {
+  const [errorMsg, setErrorMsg] = useState<string>();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data)
+
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    try{
+      console.log(data);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/auth/register`, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+          "accept": "application/json"
+        }
+      })
+      console.log(res);
+      const user = await res.json();
+  
+      if (!res?.ok) {
+        return setErrorMsg(user.message);
+      }
+  
+      return window.location.href = '/sign-in';
+    } catch(error: any) {
+      console.log(error);
+    }
+  }
 
   return (<main id="container" className="px-8 pt-12 pb-8 bg-zinc-900 min-h-dvh">
     <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
@@ -46,12 +71,12 @@ export const RegisterComponent = () => {
 
             <div className="mb-4 sm:mb-8">
               <label htmlFor="hs-feedback-post-comment-email-1" className="block mb-2 text-sm font-medium text-white">
-                Id
+                User Id
                 <span className="text-red-500">*</span>
               </label>
               <input type="text" id="hs-feedback-post-comment-name-1" className="py-2.5 sm:py-3 px-4 block w-full rounded-lg sm:text-sm focus:border-blue-500 disabled:opacity-50 disabled:pointer-events-none bg-neutral-900 border-neutral-500 text-neutral-400 placeholder-neutral-400 focus:ring-neutral-600" placeholder="Full user Id"
                 {...register("uid", { required: "Id required", pattern: { value: /^[a-zA-Z0-9_]+$/, message: 'Id can only contain uppercase and lowercase letters, numbers, and underscores' } })} />
-              
+
               {errors.uid?.message && (
                 <p className="text-red-500 " role="alert">{errors.uid.message}</p>
               )}
@@ -83,16 +108,9 @@ export const RegisterComponent = () => {
                 <p className="text-red-500 " role="alert">{errors.password.message}</p>
               )}
             </div>
-
-            {/* <div>
-              <label htmlFor="hs-feedback-post-comment-textarea-1" className="block mb-2 text-sm font-medium text-white">
-                Confirm Password
-                <span className="text-red-500">*</span>
-              </label>
-              <div className="mt-1">
-                <input type="password" id="hs-feedback-post-comment-email-1" className="py-2.5 sm:py-3 px-4 block w-full rounded-lg sm:text-sm focus:border-blue-500 disabled:opacity-50 disabled:pointer-events-none bg-neutral-900 border-neutral-500 text-neutral-400 placeholder-neutral-400 focus:ring-neutral-600" placeholder="Email address" {...register("password", { required: true })} />
-              </div>
-            </div> */}
+            {errorMsg && (
+              <p className="text-red-500 " role="alert">{errorMsg}</p>
+            )}
 
             <div className="mt-6 grid">
               <button type="submit" className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-purple-600 text-white hover:bg-purple-700 focus:outline-hidden focus:bg-purple-700 disabled:opacity-50 disabled:pointer-events-none">Submit</button>
