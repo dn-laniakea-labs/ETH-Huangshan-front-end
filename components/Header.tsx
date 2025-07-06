@@ -1,3 +1,9 @@
+'use client';
+
+import { cyrb53 } from "@/util/cyrb53";
+import makeBlockie from "ethereum-blockies-base64";
+import { useSession } from "next-auth/react";
+
 const menuList = [
   {
     title: "Launches",
@@ -18,6 +24,8 @@ const menuList = [
 ];
 
 export const Header = () => {
+  const { data: session, status } = useSession();
+
   return <header
     className="flex flex-wrap sm:justify-start sm:flex-nowrap w-full bg-zinc-900 text-sm py-3 dark:bg-neutral-800 border-b-1 border-neutral-600"
   >
@@ -38,20 +46,24 @@ export const Header = () => {
         </div>
       </a>
       <div className="sm:order-3 flex items-center gap-x-2">
-        <a
+        {status !== "authenticated" ? <><a
           type="button"
           className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border-1 border-gray-200 bg-zinc-900 text-white shadow-2xs hover:bg-gray-600 focus:outline-hidden focus:bg-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
           href="/register"
         >
           Register
         </a>
-        <a
-          type="button"
-          className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-purple-700 bg-purple-700 text-white shadow-2xs hover:bg-purple-800 focus:outline-hidden focus:bg-purple-800 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
-          href="/sign-in"
-        >
-          Sign In
-        </a>
+          <a
+            type="button"
+            className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-purple-700 bg-purple-700 text-white shadow-2xs hover:bg-purple-800 focus:outline-hidden focus:bg-purple-800 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+            href="/sign-in"
+          >
+            Sign In
+          </a>
+        </> : <a className="flex items-center" href="/me">
+          <img className="shrink-0 size-10 rounded-full" src={makeBlockie("0x" + cyrb53(session.user.name || ""))} alt="Avatar" />
+          <p className="text-white ms-2">{session.user.name}</p>
+        </a>}
         <button
           type="button"
           className="sm:hidden hs-collapse-toggle relative size-9 flex justify-center items-center gap-x-2 rounded-lg border border-purple-700 bg-purple-700 text-white shadow-2xs hover:bg-purple-800 focus:outline-hidden focus:bg-purple-800 disabled:opacity-50 disabled:pointer-events-none dark:bg-transparent dark:border-neutral-700 dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10"

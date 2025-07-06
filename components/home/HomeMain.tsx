@@ -1,6 +1,5 @@
 import { ProjectCard } from "../ProjectCard"
 
-
 export const HomeMain = () => {
   return <main id="container" className="px-8 pt-12 pb-8 bg-zinc-900 min-h-dvh">
 

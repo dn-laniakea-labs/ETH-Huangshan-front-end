@@ -1,20 +1,41 @@
 'use client';
 
-import { FC } from "react";
+import { signIn, useSession } from "next-auth/react";
+import { FC, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 type Inputs = {
-  uid: string,
+  username: string,
   password: string,
 }
 
 export const SignInComponent: FC<{}> = () => {
+  const [error, setError] = useState<string>();
   const {
-      register,
-      handleSubmit,
-      formState: { errors },
-    } = useForm<Inputs>();
-    const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data)
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>();
+
+  const { data: session } = useSession();
+
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    const result = await signIn('credentials', {
+      ...data,
+      redirect: false,
+      callbackUrl: "/"
+    })
+
+    if (result?.error) {
+      setError(() => (result.error || ""));
+    } else {
+      console.log("session?.user:", session?.user);
+      session?.user.accessToken && localStorage.setItem("accessToken", session.user.accessToken);
+      session?.user.refreshToken && localStorage.setItem("refreshToken", session.user.refreshToken);
+      // Redirect to a protected page or dashboard
+      window.location.href = '/';
+    }
+  }
 
   return <main id="container" className="px-8 pt-12 pb-8 bg-zinc-900 min-h-dvh">
     <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
@@ -28,13 +49,13 @@ export const SignInComponent: FC<{}> = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-4 sm:mb-8">
               <label htmlFor="hs-feedback-post-comment-email-1" className="block mb-2 text-sm font-medium text-white">
-                Id
+                Username
                 <span className="text-red-500">*</span>
               </label>
               <input type="text" id="hs-feedback-post-comment-name-1" className="py-2.5 sm:py-3 px-4 block w-full rounded-lg sm:text-sm focus:border-blue-500 disabled:opacity-50 disabled:pointer-events-none bg-neutral-900 border-neutral-500 text-neutral-400 placeholder-neutral-400 focus:ring-neutral-600" placeholder="Full user Id"
-                {...register("uid", { required: "Id required", pattern: { value: /^[a-zA-Z0-9_]+$/, message: 'Id can only contain uppercase and lowercase letters, numbers, and underscores' } })} />
-              {errors.uid?.message && (
-                <p className="text-red-500 " role="alert">{errors.uid.message}</p>
+                {...register("username", { required: "Username required", pattern: { value: /^[a-zA-Z0-9_]+$/, message: 'Username can only contain uppercase and lowercase letters, numbers, and underscores' } })} />
+              {errors.username?.message && (
+                <p className="text-red-500" role="alert">{errors.username.message}</p>
               )}
             </div>
 
@@ -47,6 +68,7 @@ export const SignInComponent: FC<{}> = () => {
               {errors.password?.message && (
                 <p className="text-red-500 " role="alert">{errors.password.message}</p>
               )}
+              {error && <p className="text-red-500">{error}</p>}
             </div>
 
             <div className="mt-6 grid">
