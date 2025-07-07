@@ -1,8 +1,24 @@
+import { FC } from "react";
 import { Carousel } from "../Carousel";
 import { TeamMember } from "../TeamMember";
 import Image from "next/image";
+import { CreateCategoryDto } from "@/types/createCategoryDto.type";
+import makeBlockie from "ethereum-blockies-base64";
+import { cyrb53 } from "@/util/cyrb53";
 
-export const ProjectComponent = () => {
+export interface ProjectComponentProps {
+  name: string;
+  logo: string;
+  introduction: string;
+  categories: CreateCategoryDto[];
+  website: string;
+  screenshot: string[];
+  functionality: string;
+}
+
+export const ProjectComponent: FC<ProjectComponentProps> = ({
+  name, logo, introduction, categories, website, screenshot, functionality
+}) => {
   const memberList = [
     {
       photo: "/favicon.svg",
@@ -29,52 +45,50 @@ export const ProjectComponent = () => {
     <section className="pt-30 pb-16 px-8 sm:px-16 lg:px-32">
       <div className="flex flex-col sm:flex-row items-center sm:items-start">
         <Image
-          alt={"name"}
-          src="/astro.svg"
+          alt={name}
+          src={logo || makeBlockie("0x" + cyrb53(name || ""))}
           className="h-48 w-48 object-contain border-2 border-violet-50 shadow-lg shadow-violet-400/50"
           width={192}
           height={192}
         />
 
         <div className="ml-0 sm:ml-8 mt-6 sm:mt-0 w-full">
-          <h1 className="text-2xl font-bold text-white">Astro</h1>
+          <h1 className="text-2xl font-bold text-white">{name}</h1>
           <p className="my-2 leading-4 text-gray-300">
-            The web framework for content-driven websites The web framework for content-d
+            {introduction}
           </p>
           <div>
             <span className="font-bold text-gray-300">分类：</span>
             <ul className="inline">
-              <li className="inline">
-                <a className="text-gray-300 hover:text-violet-400">标签一</a>
-              </li>、
-              <li className="inline">
-                <a href="#" className="text-gray-300 hover:text-violet-400">标签二</a>
-              </li>、
-              <li className="inline">
-                <a className="text-gray-300 hover:text-violet-400">标签二</a>
-              </li>
+              {categories.map(({id, name}) => 
+                <li className="inline" key={id}>
+                  <a className="text-gray-300 hover:text-violet-400">{name}</a>
+                </li>
+              )}
             </ul>
           </div>
-          <div>
+          {website && <div>
             <a
-              href="#"
+              href={website}
               className="inline-block bg-gray-300 px-6 py-3 text-gray-600 rounded-lg mt-2 hover:text-violet-500 hover:bg-violet-300"
             >
               立即访问 &gt;
             </a>
-          </div>
+          </div>}
         </div>
       </div>
 
-      <div className="mt-10 mb-6">
-        <Carousel imageList={imageList} />
-      </div>
+      {screenshot?.length > 0 && <div className="mt-10 mb-6">
+        <Carousel imageList={screenshot.map((item, index) => ({link: item, alt: name + " " + index}))} />
+      </div>}
 
       <div className="mt-6">
         <h3 className="text-xl font-bold text-white">核心功能</h3>
+
+        <p className="text-gray-200">{functionality}</p>
       </div>
 
-      <h3 className="text-xl font-bold mt-6 text-white">顾问团</h3>
+      {/* <h3 className="text-xl font-bold mt-6 text-white">顾问团</h3>
       <div>
         {
           memberList.map((item) => (
@@ -95,7 +109,7 @@ export const ProjectComponent = () => {
             </div>
           ))
         }
-      </div>
+      </div> */}
     </section>
   </main>
 }
