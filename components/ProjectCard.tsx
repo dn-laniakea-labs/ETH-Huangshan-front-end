@@ -2,7 +2,7 @@ import { FC } from "react";
 import { MaterialSymbolsArrowUpwardAltRounded } from "./icons/arrow-upward-alt-rounded";
 
 export interface Category {
-  id: number;
+  id: number | string;
   name: string;
 }
 
