@@ -8,11 +8,12 @@ import { LucideCode } from "../icons/lucide-code";
 import { LucideZap } from "../icons/lucide-zap";
 import { LucideGlobe } from "../icons/lucide-globe";
 import { Category } from "@/types/category.type";
+import { UploadLogo } from "../UploadLogo";
 import _ from 'lodash';
 
 type Inputs = {
   name: string, //
-  logo: string,
+  logo: string, // 
   categories?: number,
   stage?: number,
   introduction: string, //
@@ -41,6 +42,7 @@ export const CreateProjectComponent = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [categoryOptions, setCategoryOptions] = useState<Category[]>([]);
   const [stageOptions, setStageOptions] = useState<Category[]>([]);
+  const [logoUrl, setLogoUrl] = useState<string>();
 
   useEffect(() => {
     (async () => {
@@ -58,22 +60,30 @@ export const CreateProjectComponent = () => {
     })()
   }, [])
 
+
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     setIsSubmitting(() => true);
-    const { stage, categories, ...others } = data;
+    const { logo, stage, categories, ...others } = data;
     if (!stage || !categories) return;
-    console.log({
-      ...others,
-      stage: [{ id: +stage }],
-      categories: [{ id: +categories }],
-    });
-    const res = await fetch(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/project`, {
+    const imageFormData = new FormData();
+    imageFormData.append('file', logo);
+    const imageRes = await fetch(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/upload/image`, {
+      method: 'POST',
+      body: imageFormData,
+      headers: {
+        "accept": "application/json",
+        "Authorization": `Bearer ${localStorage.accessToken}`
+      }
+    })
+    const { url } = await imageRes.json();
+
+    const createProjectRes = await fetch(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/project`, {
       method: 'POST',
       body: JSON.stringify({
         ...others,
+        logo: url,
         stage: [{ id: +stage }],
         categories: [{ id: +categories }],
-        logo: "https://cdn.pixabay.com/photo/2025/06/11/07/18/wildlife-9653797_1280.jpg",
         video: "",
       }),
       headers: {
@@ -82,7 +92,8 @@ export const CreateProjectComponent = () => {
         "Authorization": `Bearer ${localStorage.accessToken}`
       }
     })
-    const project = await res.json();
+    const project = await createProjectRes.json();
+
     setIsSubmitting(() => false);
     location.href = `/project/${project.id}`;
   }
@@ -171,31 +182,20 @@ export const CreateProjectComponent = () => {
                 )}
               </div>
 
-              {/* <div className="md:col-span-2">
+              <div className="md:col-span-2">
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Logo Upload
                 </label>
-                <div className="flex items-center space-x-4">
-                  <div className="flex-1">
-                    <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
-                      {logoPreview ? (
-                        <img src={logoPreview} alt="Logo preview" className="h-20 w-20 object-contain" />
-                      ) : (
-                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                          <LucideUpload className="w-8 h-8 mb-2 text-gray-400"/>
-                          <p className="text-sm text-gray-500">Click to upload logo</p>
-                        </div>
-                      )}
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleLogoUpload}
-                        className="hidden"
-                      />
-                    </label>
-                  </div>
-                </div>
-              </div> */}
+                <Controller
+                  name="logo"
+                  control={control}
+                  rules={{ required: "Logo required" }}
+                  render={({ field: { onChange, value } }) => <UploadLogo onChange={(file, url) => { onChange(file); setLogoUrl(url) }} value={logoUrl} />}
+                />
+                {errors.logo?.message && (
+                  <p className="mt-2 text-sm text-red-600">{errors.logo.message}</p>
+                )}
+              </div>
             </div>
           </div>
 
