@@ -13,14 +13,14 @@ export interface SelectProps {
 }
 
 export const Select: FC<SelectProps> = ({ placeholder = 'Please Select', options, selectedId, onChange }) => {
-  return <select className="py-3 px-4 pe-9 block w-full rounded-lg text-sm focus:border-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 border-neutral-700 text-neutral-400 placeholder-neutral-500 focus:ring-neutral-600" value={selectedId} onChange={({ target: { value } }) => onChange?.(value)}>
+  return <select className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" value={selectedId} onChange={({ target: { value } }) => onChange?.(value)}>
     {placeholder && (
       <option value="" disabled hidden>
         {placeholder}
       </option>
     )}
     {options.map(({ id, name }) =>
-      <option key={id} value={id} className="bg-gray-700 hover:bg-neutral-400">{name}</option>
+      <option key={id} value={id} className="">{name}</option>
     )}
   </select>
 }

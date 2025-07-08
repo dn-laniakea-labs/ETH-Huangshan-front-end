@@ -46,13 +46,14 @@ export const Header = () => {
         </div>
       </a>
       <div className="sm:order-3 flex items-center gap-x-2">
-        {status !== "authenticated" ? <><a
-          type="button"
-          className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border-1 border-gray-200 bg-zinc-900 text-white shadow-2xs hover:bg-gray-600 focus:outline-hidden focus:bg-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
-          href="/sign-up"
-        >
-          Sign Up
-        </a>
+        {status !== "authenticated" ? <>
+          <a
+            type="button"
+            className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border-1 border-gray-200 bg-zinc-900 text-white shadow-2xs hover:bg-gray-600 focus:outline-hidden focus:bg-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+            href="/sign-up"
+          >
+            Sign Up
+          </a>
           <a
             type="button"
             className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-purple-700 bg-purple-700 text-white shadow-2xs hover:bg-purple-800 focus:outline-hidden focus:bg-purple-800 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
@@ -62,13 +63,20 @@ export const Header = () => {
           </a>
         </> :
           <>
+            <a 
+              type="button"
+              className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-purple-700 bg-purple-700 text-white shadow-2xs hover:bg-purple-800 focus:outline-hidden focus:bg-purple-800 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+              href="/project/create"
+            >
+              Create Project
+              </a>
             <a className="flex items-center" href="/me">
               <img className="shrink-0 size-10 rounded-full" src={makeBlockie("0x" + cyrb53(session.user.name || ""))} alt="Avatar" />
               <p className="text-white ms-2">{session.user.name}</p>
             </a>
             <button type="button"
-            className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-purple-700 bg-purple-700 text-white shadow-2xs hover:bg-purple-800 focus:outline-hidden focus:bg-purple-800 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
-            onClick={() => signOut({redirect: false})}>Sign Out</button>
+              className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-purple-700 bg-purple-700 text-white shadow-2xs hover:bg-purple-800 focus:outline-hidden focus:bg-purple-800 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+              onClick={() => signOut({ redirect: false })}>Sign Out</button>
           </>
         }
         <button

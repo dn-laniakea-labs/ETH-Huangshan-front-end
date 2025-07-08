@@ -1,6 +1,6 @@
 'use client';
 
-import { signIn, useSession } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import { FC, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
@@ -17,8 +17,6 @@ export const SignInComponent: FC<{}> = () => {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const { data: session } = useSession();
-
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const result = await signIn('credentials', {
       ...data,
@@ -29,9 +27,10 @@ export const SignInComponent: FC<{}> = () => {
     if (result?.error) {
       setError(() => (result.error || ""));
     } else {
-      console.log("session?.user:", session?.user);
-      session?.user.accessToken && localStorage.setItem("accessToken", session.user.accessToken);
-      session?.user.refreshToken && localStorage.setItem("refreshToken", session.user.refreshToken);
+      const { user } = (await getSession()) || {};
+      console.log("session?.user:", user, result);
+      localStorage.accessToken = user?.accessToken;
+      localStorage.refreshToken = user?.refreshToken;
       // Redirect to a protected page or dashboard
       window.location.href = '/';
     }

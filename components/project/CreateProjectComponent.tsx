@@ -2,16 +2,23 @@
 
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Select } from "../Select";
-import { SSRMdEditor } from "../SSRMdEditor";
+import { useEffect, useState } from "react";
+import { LucideTag } from "../icons/lucide-tag";
+import { LucideCode } from "../icons/lucide-code";
+import { LucideZap } from "../icons/lucide-zap";
+import { LucideGlobe } from "../icons/lucide-globe";
+import { Category } from "@/types/category.type";
+import _ from 'lodash';
 
 type Inputs = {
-  name: string,//
+  name: string, //
   logo: string,
-  categories?: number,//
-  introduction: string,//
-  website: string,//
+  categories?: number,
+  stage?: number,
+  introduction: string, //
+  website: string, //
   screenshot: Array<string>,
-  video: string,//不需要
+  video: string,
   functionality: string, //
   // coreTeam: Array<{
   //   id: 0,
@@ -21,7 +28,7 @@ type Inputs = {
   //   photo: string,
   //   social: string,
   // }>,
-  social: string,//
+  social: string, //
 }
 
 export const CreateProjectComponent = () => {
@@ -31,106 +38,256 @@ export const CreateProjectComponent = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data)
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [categoryOptions, setCategoryOptions] = useState<Category[]>([]);
+  const [stageOptions, setStageOptions] = useState<Category[]>([]);
 
-  return <main id="container" className="px-8 pt-12 pb-8 bg-zinc-900 min-h-dvh">
-    <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-      <div className="mx-auto max-w-2xl">
-        <div className="text-center">
-          <h2 className="text-xl text-white font-bold sm:text-3xl">
-            Create Project
-          </h2>
+  useEffect(() => {
+    (async () => {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/category`, {
+        headers: {
+          "Content-Type": "application/json",
+          "accept": "application/json"
+        }
+      })
+      const categoryList: Category[] = await res.json();
+      const { category, stage } = _.groupBy(categoryList, "type");
+      setCategoryOptions(category || []);
+      setStageOptions(stage || []);
+      console.log(category, stage);
+    })()
+  }, [])
+
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    setIsSubmitting(() => true);
+    const { stage, categories, ...others } = data;
+    if (!stage || !categories) return;
+    console.log({
+      ...others,
+      stage: [{ id: +stage }],
+      categories: [{ id: +categories }],
+    });
+    const res = await fetch(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/project`, {
+      method: 'POST',
+      body: JSON.stringify({
+        ...others,
+        stage: [{ id: +stage }],
+        categories: [{ id: +categories }],
+        logo: "https://cdn.pixabay.com/photo/2025/06/11/07/18/wildlife-9653797_1280.jpg",
+        video: "",
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        "accept": "application/json",
+        "Authorization": `Bearer ${localStorage.accessToken}`
+      }
+    })
+    const project = await res.json();
+    setIsSubmitting(() => false);
+    location.href = `/project/${project.id}`;
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-purple-950 to-gray-950 py-12 px-4">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-50 via-blue-50 to-indigo-100 bg-clip-text text-transparent mb-4">
+            Submit Your Project
+          </h1>
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+            Share your innovative project with the community. Fill out the form below to get featured on our platform.
+          </p>
         </div>
-        <div className="mt-5 p-4 relative z-10 bg-neutral-900 border border-neutral-700 rounded-xl sm:mt-10 md:p-10 dark:bg-neutral-900 dark:border-neutral-700">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="mb-4 sm:mb-8">
-              <label htmlFor="hs-feedback-post-comment-name-1" className="block mb-2 text-sm font-medium text-white">
-                Name
-                <span className="text-red-500">*</span>
-              </label>
-              <input type="text" className="py-2.5 sm:py-3 px-4 block w-full rounded-lg sm:text-sm focus:border-blue-500 disabled:opacity-50 disabled:pointer-events-none bg-neutral-900 border-neutral-500 text-neutral-400 placeholder-neutral-400 focus:ring-neutral-600" placeholder="Full name" {...register("name", {
-                required: "Name required",
-              })}
-                aria-invalid={errors.name ? "true" : "false"}
-              />
-              {errors.name?.message && (
-                <p className="text-red-500 " role="alert">{errors.name.message}</p>
-              )}
+
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+          {/* 基本信息 */}
+          <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+            <div className="flex items-center mb-6">
+              <div className="bg-purple-100 p-3 rounded-full mr-4">
+                <LucideGlobe className="w-6 h-6 text-purple-600" />
+              </div>
+              <h2 className="text-2xl font-bold text-gray-800">Basic Information</h2>
             </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="md:col-span-2">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Project Name <span className="text-red-500">*</span>
+                </label>
+                <input
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                  placeholder="Enter your project name"
+                  {...register("name", {
+                    required: "Project Name required",
+                  })}
+                />
+                {errors.name?.message && (
+                  <p className="mt-2 text-sm text-red-600">{errors.name.message}</p>
+                )}
+              </div>
 
-            <div className="mb-4 sm:mb-8">
-              <label htmlFor="hs-feedback-post-comment-email-1" className="block mb-2 text-sm font-medium text-white">
-                Introduction
-                <span className="text-red-500">*</span>
-              </label>
-              <textarea id="hs-feedback-post-comment-textarea-1" rows={3} className="py-2.5 sm:py-3 px-4 block w-full rounded-lg sm:text-sm focus:border-blue-500 disabled:opacity-50 disabled:pointer-events-none bg-neutral-900 border-neutral-700 text-neutral-400 placeholder-neutral-500 focus:ring-neutral-600" placeholder="Full introduction" {...register("introduction", { required: "Introduction required" })}></textarea>
+              <div className="md:col-span-2">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Brief Description <span className="text-red-500">*</span>
+                </label>
+                <textarea
+                  rows={4}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all resize-none"
+                  placeholder="Provide a concise overview of your project, its purpose, and key benefits..."
+                  {...register("introduction", {
+                    required: "Brief Description required",
+                  })}
+                />
+                {errors.introduction?.message && (
+                  <p className="mt-2 text-sm text-red-600">{errors.introduction.message}</p>
+                )}
+              </div>
 
-              {errors.introduction?.message && (
-                <p className="text-red-500 " role="alert">{errors.introduction.message}</p>
-              )}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Website URL
+                </label>
+                <input
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                  placeholder="https://your-project.com"
+                  {...register("website")}
+                />
+                {errors.website?.message && (
+                  <p className="mt-2 text-sm text-red-600">{errors.website.message}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Social Link
+                </label>
+                <input
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                  placeholder="Twitter, Discord, Telegram, etc."
+                  {...register("social")}
+                />
+                {errors.social?.message && (
+                  <p className="mt-2 text-sm text-red-600">{errors.social.message}</p>
+                )}
+              </div>
+
+              {/* <div className="md:col-span-2">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Logo Upload
+                </label>
+                <div className="flex items-center space-x-4">
+                  <div className="flex-1">
+                    <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
+                      {logoPreview ? (
+                        <img src={logoPreview} alt="Logo preview" className="h-20 w-20 object-contain" />
+                      ) : (
+                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                          <LucideUpload className="w-8 h-8 mb-2 text-gray-400"/>
+                          <p className="text-sm text-gray-500">Click to upload logo</p>
+                        </div>
+                      )}
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleLogoUpload}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
+                </div>
+              </div> */}
             </div>
+          </div>
 
-            <div className="mb-4 sm:mb-8">
-              <label htmlFor="hs-feedback-post-comment-email-1" className="block mb-2 text-sm font-medium text-white">
-                Website
-                <span className="text-red-500">*</span>
-              </label>
-              <input type="text" className="py-2.5 sm:py-3 px-4 block w-full rounded-lg sm:text-sm focus:border-blue-500 disabled:opacity-50 disabled:pointer-events-none bg-neutral-900 border-neutral-500 text-neutral-400 placeholder-neutral-400 focus:ring-neutral-600" placeholder="Full website" {...register("website", { required: "Website required" })}
-              />
-              {errors.website?.message && (
-                <p className="text-red-500 " role="alert">{errors.website.message}</p>
-              )}
+          {/* 分类与标签 */}
+          <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+            <div className="flex items-center mb-6">
+              <div className="bg-blue-100 p-3 rounded-full mr-4">
+                <LucideTag className="w-6 h-6 text-blue-600" />
+              </div>
+              <h2 className="text-2xl font-bold text-gray-800">Categories and Tags</h2>
             </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Category <span className="text-red-500">*</span>
+                </label>
+                <Controller
+                  name="categories"
+                  control={control}
+                  rules={{ required: "Category required" }}
+                  render={({ field: { onChange, value } }) => <Select options={categoryOptions.map(({ id, name }) => ({ id: id + "", name }))} onChange={onChange} selectedId={(value ?? '') + ""} placeholder="Please select category." />}
+                />
+                {errors.categories?.message && (
+                  <p className="mt-2 text-sm text-red-600">{errors.categories.message}</p>
+                )}
+              </div>
 
-            <div className="mb-4 sm:mb-8">
-              <label htmlFor="hs-feedback-post-comment-email-1" className="block mb-2 text-sm font-medium text-white">Social</label>
-              <input type="text" className="py-2.5 sm:py-3 px-4 block w-full rounded-lg sm:text-sm focus:border-blue-500 disabled:opacity-50 disabled:pointer-events-none bg-neutral-900 border-neutral-500 text-neutral-400 placeholder-neutral-400 focus:ring-neutral-600" placeholder="Full social" {...register("social")} />
-              {errors.social?.message && (
-                <p className="text-red-500 " role="alert">{errors.social.message}</p>
-              )}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Project Stage <span className="text-red-500">*</span>
+                </label>
+                <Controller
+                  name="stage"
+                  control={control}
+                  rules={{ required: "Stage required" }}
+                  render={({ field: { onChange, value } }) => <Select options={stageOptions.map(({ id, name }) => ({ id: id + "", name }))} onChange={onChange} selectedId={(value ?? '') + ""} placeholder="Please select stage." />}
+                />
+                {errors.stage?.message && (
+                  <p className="mt-2 text-sm text-red-600">{errors.stage.message}</p>
+                )}
+              </div>
             </div>
+          </div>
 
-            <div className="mb-4 sm:mb-8">
-              <label htmlFor="hs-feedback-post-comment-email-1" className="block mb-2 text-sm font-medium text-white">
-                Category
-                <span className="text-red-500">*</span>
-              </label>
-              <Controller
-                name="categories"
-                control={control}
-                rules={{ required: true }}
-                render={({ field: { onChange, value } }) => <Select options={[{ id: '0', name: "0" }, { id: '1', name: "1" }]} onChange={onChange} selectedId={value + "" || ''} />}
-              />
-              {errors.categories?.message && (
-                <p className="text-red-500 " role="alert">{errors.categories.message}</p>
-              )}
+          {/* 功能说明 */}
+          <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+            <div className="flex items-center mb-6">
+              <div className="bg-green-100 p-3 rounded-full mr-4">
+                <LucideCode className="w-6 h-6 text-green-600" />
+              </div>
+              <h2 className="text-2xl font-bold text-gray-800">Function Description</h2>
             </div>
-
-            <div className="mb-4 sm:mb-8">
-              <label htmlFor="hs-feedback-post-comment-email-1" className="block mb-2 text-sm font-medium text-white">
-                Functionality
-                <span className="text-red-500">*</span>
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Functionality <span className="text-red-500">*</span>
               </label>
-              <Controller
-                name="functionality"
-                control={control}
-                rules={{ required: true }}
-                render={({ field: { onChange, value } }) => 
-                <SSRMdEditor onChange={onChange} value={value}/>}
+              <textarea
+                rows={6}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all resize-none"
+                placeholder="What are the core features and use cases of your product? Describe the main functionalities, target audience, and unique value proposition..."
+                {...register("functionality", {
+                  required: "Functionality required",
+                })}
               />
               {errors.functionality?.message && (
-                <p className="text-red-500 " role="alert">{errors.functionality.message}</p>
+                <p className="mt-2 text-sm text-red-600">{errors.functionality.message}</p>
               )}
             </div>
+          </div>
 
-            
-
-            <div className="mt-6 grid">
-              <button type="submit" className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-purple-600 text-white hover:bg-purple-700 focus:outline-hidden focus:bg-purple-700 disabled:opacity-50 disabled:pointer-events-none">Submit</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </main>
+          {/* Submit Button */}
+          <div className="text-center">
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="inline-flex items-center px-12 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold rounded-xl hover:from-purple-700 hover:to-blue-700 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg"
+            >
+              {isSubmitting ? (
+                <>
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
+                  Publishing...
+                </>
+              ) : (
+                <>
+                  <LucideZap className="w-5 h-5 mr-3" />
+                  Publish
+                </>
+              )}
+            </button>
+          </div>
+        </form>
+      </div >
+    </div >
+  );
 }

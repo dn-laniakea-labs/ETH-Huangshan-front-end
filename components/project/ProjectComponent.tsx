@@ -41,7 +41,7 @@ export const ProjectComponent: FC<ProjectComponentProps> = ({
     },
   ];
 
-  return <main className="bg-zinc-900">
+  return <main className="bg-zinc-900 min-h-screen">
     <section className="pt-30 pb-16 px-8 sm:px-16 lg:px-32">
       <div className="flex flex-col sm:flex-row items-center sm:items-start">
         <Image
