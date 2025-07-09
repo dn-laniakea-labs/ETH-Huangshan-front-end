@@ -133,7 +133,7 @@ export const ProductComponent: FC<{}> = () => {
         <span className="text-white">Live Products</span>
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-        {liveProject.map(({ name, id, logo, introduction, categories, vote }, index) => <ProductCard key={id + name} title={name} id={id} logo={logo} rank={index + 1} description={introduction} tags={categories.map(({ name }) => name)} comments={0} trend={vote?.score || 0} tagColorClass={""} onClick={(id) => console.log(id)} />)}
+        {liveProject.map(({ name, id, logo, introduction, categories, vote }, index) => <ProductCard key={id + name} title={name} id={id} logo={logo} rank={index + 1} description={introduction} tags={categories.map(({ name }) => name)} comments={0} trend={vote?.score || 0} tagColorClass={""} onClick={(id) => location.href = `/project/${id}`} />)}
       </div>
     </section>
     <section className="px-6 py-5">
@@ -142,7 +142,7 @@ export const ProductComponent: FC<{}> = () => {
         <span className="text-white">Testing Versions</span>
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-        {alphaBetaProject.map(({ name, id, logo, introduction, categories, vote }, index) => <ProductCard key={id + name} title={name} id={id} logo={logo} rank={index + 1} description={introduction} tags={categories.map(({ name }) => name)} comments={0} trend={vote?.score || 0} tagColorClass={""} onClick={(id) => console.log(id)} />)}
+        {alphaBetaProject.map(({ name, id, logo, introduction, categories, vote }, index) => <ProductCard key={id + name} title={name} id={id} logo={logo} rank={index + 1} description={introduction} tags={categories.map(({ name }) => name)} comments={0} trend={vote?.score || 0} tagColorClass={""} onClick={(id) => location.href = `/project/${id}`} />)}
       </div>
     </section>
     <section className="px-6 py-5">
@@ -151,7 +151,7 @@ export const ProductComponent: FC<{}> = () => {
         <span className="text-purple-400">Inspiration Pool</span>
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-        {ideaProject.map(({ name, id, logo, introduction, categories, vote }, index) => <ProductCard key={id + name} title={name} id={id} logo={logo} rank={index + 1} description={introduction} tags={categories.map(({ name }) => name)} comments={0} trend={vote?.score || 0} tagColorClass={""} onClick={(id) => console.log(id)} />)}
+        {ideaProject.map(({ name, id, logo, introduction, categories, vote }, index) => <ProductCard key={id + name} title={name} id={id} logo={logo} rank={index + 1} description={introduction} tags={categories.map(({ name }) => name)} comments={0} trend={vote?.score || 0} tagColorClass={""} onClick={(id) => location.href = `/project/${id}`} />)}
       </div>
     </section>
   </main>
