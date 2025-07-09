@@ -9,10 +9,10 @@ const menuList = [
     title: "Launches",
     link: "#",
   },
-  {
-    title: "Products",
-    link: "#",
-  },
+  // {
+  //   title: "Products",
+  //   link: "/product",
+  // },
   {
     title: "Resources",
     link: "#",
