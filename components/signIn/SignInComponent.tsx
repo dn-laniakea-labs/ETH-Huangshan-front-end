@@ -72,6 +72,8 @@ export const SignInComponent: FC = () => {
 
             <div className="mt-6 grid">
               <button type="submit" className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-purple-600 text-white hover:bg-purple-700 focus:outline-hidden focus:bg-purple-700 disabled:opacity-50 disabled:pointer-events-none">Sign In</button>
+
+              <a href="/sign-up" className="text-purple-600 text-center underline block mt-2">No account? Please register first</a>
             </div>
           </form>
         </div>
