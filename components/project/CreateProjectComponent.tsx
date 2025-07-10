@@ -190,7 +190,7 @@ export const CreateProjectComponent = () => {
                   name="logo"
                   control={control}
                   rules={{ required: "Logo required" }}
-                  render={({ field: { onChange, value } }) => <UploadLogo onChange={(file, url) => { onChange(file); setLogoUrl(url) }} value={logoUrl} />}
+                  render={({ field: { onChange } }) => <UploadLogo onChange={(file, url) => { onChange(file); setLogoUrl(url) }} value={logoUrl} />}
                 />
                 {errors.logo?.message && (
                   <p className="mt-2 text-sm text-red-600">{errors.logo.message}</p>

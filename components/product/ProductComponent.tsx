@@ -43,7 +43,7 @@ const sortOptions = [
   },
 ]
 
-export const ProductComponent: FC<{}> = () => {
+export const ProductComponent: FC = () => {
   const [categoryOptions, setCategoryOptions] = useState<Category[]>([]);
   const [checkedCategory, setCheckCategory] = useState<number>(-1);
   // const [checkedTime, setCheckedTime] = useState<string>(timeOptions[0].value);

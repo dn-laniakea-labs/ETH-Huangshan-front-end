@@ -22,7 +22,7 @@ export const authOptions: NextAuthOptions = {
         username: { label: "username", type: "text" },
         password: { label: "Password", type: "password" }
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         if (!credentials) return null;
 
         const res = await fetch(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/auth/login`, {

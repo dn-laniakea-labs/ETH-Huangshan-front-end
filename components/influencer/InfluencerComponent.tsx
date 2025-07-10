@@ -32,7 +32,7 @@ const QAList = [
   },
 ]
 
-export const InfluencerComponent: FC<{}> = () => {
+export const InfluencerComponent: FC = () => {
   const [checkedEstimator, setCheckedEstimator] = useState<number>(1500);
   return <main className="bg-gray-950 min-h-lvh px-18">
     <h2 className="text-white text-4xl font-extralight text-center pt-20">Outcome-based pricing</h2>

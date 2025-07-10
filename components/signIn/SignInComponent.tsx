@@ -9,7 +9,7 @@ type Inputs = {
   password: string,
 }
 
-export const SignInComponent: FC<{}> = () => {
+export const SignInComponent: FC = () => {
   const [error, setError] = useState<string>();
   const {
     register,

@@ -1,6 +1,7 @@
+import Image from "next/image";
 import { FC } from "react";
-import { LucideMessageCircle } from "./icons/lucide-message-circle";
-import { LucideTrendingUp } from "./icons/lucide-trending-up";
+// import { LucideMessageCircle } from "./icons/lucide-message-circle";
+// import { LucideTrendingUp } from "./icons/lucide-trending-up";
 
 export interface ProductCardProps {
   title: string;
@@ -15,13 +16,13 @@ export interface ProductCardProps {
   onClick?: (id: string | number) => any;
 }
 
-export const ProductCard: FC<ProductCardProps> = ({ id, title, logo, rank, description, tags, comments, trend, tagColorClass, onClick }) => (
+export const ProductCard: FC<ProductCardProps> = ({ id, title, logo, rank, description, tags, tagColorClass, onClick }) => (
   <div className="p-3">
     <div className="shadow-2xs rounded-xl p-4 md:p-5 bg-gray-800 hover:bg-gray-700 cursor-pointer" onClick={() => onClick?.(id)}>
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
           <span className="text-gray-400 text-sm font-medium"># {rank}</span>
-          <img src={logo} alt={title} width={18} height={18} />
+          <Image src={logo} alt={title} width={18} height={18} />
           <h3 className="text-white font-semibold text-lg">{title}</h3>
         </div>
       </div>

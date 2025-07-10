@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { MaterialSymbolsArrowUpwardAltRounded } from "./icons/arrow-upward-alt-rounded";
+import Image from "next/image";
 
 export interface Category {
   id: number | string;
@@ -17,8 +18,9 @@ export interface ProjectCardProps {
 
 export const ProjectCard: FC<ProjectCardProps> = ({ id, logo, name, introduction, categories, upVotes }) => {
   return <div className="flex border-1 border-neutral-300 rounded-lg p-8">
-    <img
+    <Image
       src={logo}
+      alt={name}
       className="w-12 h-12 border-1 border-neutral-300 rounded-xl flex-none"
     />
     <div className="px-2 grow">

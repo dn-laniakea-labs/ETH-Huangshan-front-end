@@ -8,10 +8,9 @@ import { SessionUser } from "@/types/sessionUser";
 import { Project } from "@/types/project.type";
 import { PageDto } from "@/types/base.type";
 import { User } from "@/types/user.type";
+import Image from "next/image";
 
-export interface MeComponentProps extends SessionUser { }
-
-export const MeComponent: FC<MeComponentProps> = ({ id }) => {
+export const MeComponent: FC<SessionUser> = ({ id }) => {
   const [userInfo, setUserInfo] = useState<User>();
   const [projectList, setProjectList] = useState<Project[]>();
   const [total, setTotal] = useState<number>(0);
@@ -65,7 +64,7 @@ export const MeComponent: FC<MeComponentProps> = ({ id }) => {
       <div className="mx-auto max-w-3xl">
         <div className="flex items-center gap-x-3 mb-10">
           <div className="shrink-0">
-            <img className="shrink-0 size-16 rounded-full" src={makeBlockie("0x" + cyrb53(userInfo?.name || ""))} alt="Avatar" />
+            <Image className="shrink-0 size-16 rounded-full" src={makeBlockie("0x" + cyrb53(userInfo?.name || ""))} alt="Avatar" />
           </div>
 
           <div className="grow">

@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Carousel } from "../Carousel";
-import { TeamMember } from "../TeamMember";
+// import { TeamMember } from "../TeamMember";
 import Image from "next/image";
 import { CreateCategoryDto } from "@/types/createCategoryDto.type";
 import makeBlockie from "ethereum-blockies-base64";
@@ -19,27 +19,27 @@ export interface ProjectComponentProps {
 export const ProjectComponent: FC<ProjectComponentProps> = ({
   name, logo, introduction, categories, website, screenshot, functionality
 }) => {
-  const memberList = [
-    {
-      photo: "/favicon.svg",
-      name: "张三",
-      position: "CEO & 创始人",
-      link: "baidu.com",
-      background:
-        "张三在计算机科学领域拥有超过15年的经验，专注于软件开发和人工智能技术的研究与应用。他曾在多家知名科技公司担任高级软件工程师和技术主管，负责领导多个大型项目的设计与实施，特别是在自然语言处理和机器学习领域取得了显著成就。",
-    },
-  ];
+  // const memberList = [
+  //   {
+  //     photo: "/favicon.svg",
+  //     name: "张三",
+  //     position: "CEO & 创始人",
+  //     link: "baidu.com",
+  //     background:
+  //       "张三在计算机科学领域拥有超过15年的经验，专注于软件开发和人工智能技术的研究与应用。他曾在多家知名科技公司担任高级软件工程师和技术主管，负责领导多个大型项目的设计与实施，特别是在自然语言处理和机器学习领域取得了显著成就。",
+  //   },
+  // ];
 
-  const imageList = [
-    {
-      link: "/astro.svg",
-      alt: "",
-    },
-    {
-      link: "/favicon.svg",
-      alt: "",
-    },
-  ];
+  // const imageList = [
+  //   {
+  //     link: "/astro.svg",
+  //     alt: "",
+  //   },
+  //   {
+  //     link: "/favicon.svg",
+  //     alt: "",
+  //   },
+  // ];
 
   return <main className="bg-zinc-900 min-h-screen">
     <section className="pt-30 pb-16 px-8 sm:px-16 lg:px-32">

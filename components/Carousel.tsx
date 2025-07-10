@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { FC } from "react";
 
 export interface IamgeItem {
@@ -24,7 +25,7 @@ export const Carousel: FC<CarouselProps> = ({ imageList }) => {
             imageList.map(({ link, alt }) => (
               <div className="hs-carousel-slide" key={link+alt}>
                 <div className="flex justify-center h-full p-6">
-                  <img src={link} alt={alt || ''} width="100%" />
+                  <Image src={link} alt={alt || ''} className="w-full" />
                 </div>
               </div>
             ))
@@ -85,7 +86,7 @@ export const Carousel: FC<CarouselProps> = ({ imageList }) => {
             imageList.map(({ link, alt }) => (
               <div key={link + alt} className="hs-carousel-pagination-item shrink-0 border border-gray-200 rounded-md overflow-hidden cursor-pointer size-20 md:size-32 hs-carousel-active:border-blue-400 dark:border-neutral-700">
                 <div className="flex justify-center items-center text-center size-full p-2">
-                  <img src={link} alt={alt || ""} />
+                  <Image src={link} alt={alt || ""} />
                 </div>
               </div>
             ))
