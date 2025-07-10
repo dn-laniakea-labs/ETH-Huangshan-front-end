@@ -64,7 +64,7 @@ export const MeComponent: FC<SessionUser> = ({ id }) => {
       <div className="mx-auto max-w-3xl">
         <div className="flex items-center gap-x-3 mb-10">
           <div className="shrink-0">
-            <Image className="shrink-0 size-16 rounded-full" src={makeBlockie("0x" + cyrb53(userInfo?.name || ""))} alt="Avatar" />
+            <Image className="shrink-0 size-16 rounded-full" src={makeBlockie("0x" + cyrb53(userInfo?.name || ""))} alt="Avatar" height={64} width={64} />
           </div>
 
           <div className="grow">

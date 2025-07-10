@@ -22,6 +22,8 @@ export const ProjectCard: FC<ProjectCardProps> = ({ id, logo, name, introduction
       src={logo}
       alt={name}
       className="w-12 h-12 border-1 border-neutral-300 rounded-xl flex-none"
+      width={48}
+      height={48}
     />
     <div className="px-2 grow">
       <a className="text-white hover:text-purple-600" href={`/project/${id}`}>

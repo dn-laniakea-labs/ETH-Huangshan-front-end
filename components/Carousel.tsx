@@ -25,7 +25,7 @@ export const Carousel: FC<CarouselProps> = ({ imageList }) => {
             imageList.map(({ link, alt }) => (
               <div className="hs-carousel-slide" key={link+alt}>
                 <div className="flex justify-center h-full p-6">
-                  <Image src={link} alt={alt || ''} className="w-full" />
+                  <Image src={link} alt={alt || ''} width={1000} height={1000} />
                 </div>
               </div>
             ))
@@ -86,7 +86,7 @@ export const Carousel: FC<CarouselProps> = ({ imageList }) => {
             imageList.map(({ link, alt }) => (
               <div key={link + alt} className="hs-carousel-pagination-item shrink-0 border border-gray-200 rounded-md overflow-hidden cursor-pointer size-20 md:size-32 hs-carousel-active:border-blue-400 dark:border-neutral-700">
                 <div className="flex justify-center items-center text-center size-full p-2">
-                  <Image src={link} alt={alt || ""} />
+                  <Image src={link} alt={alt || ""} height={110} width={110} />
                 </div>
               </div>
             ))

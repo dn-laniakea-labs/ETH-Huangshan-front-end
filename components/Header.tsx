@@ -8,12 +8,12 @@ import Image from "next/image";
 
 const menuList = [
   {
-    title: "Influencer",
-    link: "/influencer"
+    title: "Launches",
+    link: "/",
   },
   {
-    title: "Launches",
-    link: "#",
+    title: "Influencer",
+    link: "/influencer"
   },
   // {
   //   title: "Products",
@@ -52,6 +52,13 @@ export const Header = () => {
         </div>
       </Link>
       <div className="sm:order-3 flex items-center gap-x-2">
+        <Link
+          type="button"
+          className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-purple-700 bg-purple-700 text-white shadow-2xs hover:bg-purple-800 focus:outline-hidden focus:bg-purple-800 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+          href="/project/create"
+        >
+          Create Project
+        </Link>
         {status !== "authenticated" ? <>
           <a
             type="button"
@@ -69,15 +76,8 @@ export const Header = () => {
           </a>
         </> :
           <>
-            <Link
-              type="button"
-              className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-purple-700 bg-purple-700 text-white shadow-2xs hover:bg-purple-800 focus:outline-hidden focus:bg-purple-800 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
-              href="/project/create"
-            >
-              Create Project
-            </Link>
             <a className="flex items-center" href="/me">
-              <Image className="shrink-0 size-10 rounded-full" src={makeBlockie("0x" + cyrb53(session.user.name || ""))} alt="Avatar" />
+              <Image className="shrink-0 size-10 rounded-full" src={makeBlockie("0x" + cyrb53(session.user.name || ""))} alt="Avatar" width={20} height={20} />
               <p className="text-white ms-2">{session.user.name}</p>
             </a>
             <button type="button"
