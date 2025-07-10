@@ -29,6 +29,7 @@ export const SignInComponent: FC = () => {
     } else {
       const { user } = (await getSession()) || {};
       console.log("session?.user:", user, result);
+      localStorage.clear();
       localStorage.accessToken = user?.accessToken;
       localStorage.refreshToken = user?.refreshToken;
       // Redirect to a protected page or dashboard
