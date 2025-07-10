@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<h1 align="center">Upio - front-end</h1>
+
+<p align="center">A Full Lifecycle Discovery and Growth Platform for Web3 Projects.</p>
+
+## Description
+
+A one-stop platform that provides developers with idea validation, user feedback, and promotion channels, while helping users and investors discover high-quality early-stage Web3 projects.
 
 ## Getting Started
 
 First, run the development server:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm dev:dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Technology Stack:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Node.js
+- pnpm
+- Next.js
+- preline
+- tailwindcss
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project Highlights / Innovations:
 
-## Learn More
+- Innovation and Originality
 
-To learn more about Next.js, take a look at the following resources:
+  - Upio is the first product to integrate the entire incubation chain of Web3 projects (from idea validation, social data analysis, to recruitment collaboration) into a single platform, bridging a critical gap in the current market. Its combination of Twitter data analysis and KOL attribution represents an industry-first feature.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Commercial Viability
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+  - Upio has a clear monetization path, including revenue streams such as paid homepage exposure for projects, commission on KOL matchmaking, recruitment service fees, and sales of data analytics APIs. It addresses the needs of both early-stage entrepreneurs and investors, supporting a scalable revenue model. With over 10,000 new Web3 projects launched each year, demand is widespread and ongoing.
 
-## Deploy on Vercel
+- Ecosystem Value
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+  - Upio enhances the efficiency of the entire Web3 startup ecosystem by enabling rapid idea validation, facilitating early collaboration and dissemination, and lowering the barriers to cold starts. The platform connects developers, users, KOLs, and investors through its mechanism, forming a collaborative growth network that generates positive multiplier effects for ecosystem development.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## License
+
+Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
