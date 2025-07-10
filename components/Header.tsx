@@ -21,11 +21,11 @@ const menuList = [
   // },
   {
     title: "Resources",
-    link: "#",
+    link: "/resources",
   },
   {
     title: "Jobs",
-    link: "#",
+    link: "/jobs",
   },
 ];
 
