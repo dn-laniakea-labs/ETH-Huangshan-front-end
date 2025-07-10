@@ -17,7 +17,7 @@ export interface ProductCardProps {
 }
 
 export const ProductCard: FC<ProductCardProps> = ({ id, title, logo, rank, description, tags, tagColorClass, onClick }) => (
-  <div className="p-3">
+  <div className="p-3 h-full">
     <div className="shadow-2xs rounded-xl p-4 md:p-5 bg-gray-800 hover:bg-gray-700 cursor-pointer" onClick={() => onClick?.(id)}>
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
@@ -27,7 +27,7 @@ export const ProductCard: FC<ProductCardProps> = ({ id, title, logo, rank, descr
         </div>
       </div>
 
-      <p className="text-gray-400 text-sm mb-4 leading-relaxed">
+      <p className="text-gray-400 text-sm mb-4 leading-relaxed line-clamp-2">
         {description}
       </p>
 
